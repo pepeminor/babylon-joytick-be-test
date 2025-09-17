@@ -1,8 +1,18 @@
+import express from "express";
+import { createServer } from "http";
 import { WebSocketServer } from "ws";
 
 const PORT = process.env.PORT || 3001;
 const MAX_PLAYERS = 30;
 const clients = new Map(); // id -> ws
+
+// ===== HTTP server =====
+const app = express();
+app.get("/", (req, res) => res.send("WS server is running 🚀"));
+const server = createServer(app);
+
+// ===== WS server attach vào HTTP =====
+const wss = new WebSocketServer({ server });
 
 function broadcast(data, exceptId) {
     const msg = JSON.stringify(data);
@@ -12,8 +22,6 @@ function broadcast(data, exceptId) {
         }
     }
 }
-
-const wss = new WebSocketServer({ port: PORT });
 
 wss.on("connection", (ws) => {
     if (clients.size >= MAX_PLAYERS) {
@@ -26,14 +34,12 @@ wss.on("connection", (ws) => {
     clients.set(id, ws);
     console.log("✅ Player joined:", id);
 
-    // gửi cho chính nó: ID của mình + danh sách người khác
     ws.send(JSON.stringify({
         type: "welcome",
         id,
-        others: Array.from(clients.keys()).filter((k) => k !== id)
+        others: Array.from(clients.keys()).filter((k) => k !== id),
     }));
 
-    // báo cho người khác biết có người mới
     broadcast({ type: "join", id }, id);
 
     ws.on("message", (raw) => {
@@ -54,4 +60,7 @@ wss.on("connection", (ws) => {
     });
 });
 
-console.log(`🚀 WS server running at ws://localhost:${PORT}`);
+server.listen(PORT, () => {
+    console.log(`🚀 WS server running at http://localhost:${PORT}`);
+    console.log(`👉 FE connect URL: ws://localhost:${PORT}`);
+});
