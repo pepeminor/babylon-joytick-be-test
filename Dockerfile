@@ -7,5 +7,5 @@ COPY ./modules /nakama/data/modules
 CMD ["/bin/sh", "-c", "/nakama/nakama \
     --name nakama1 \
     --logger.level DEBUG \
-    --database.address postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:5432/${PGDATABASE}?sslmode=disable \
+    --database.address postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:5432/${PGDATABASE}?sslmode=require \
     --runtime.path /nakama/data/modules"]
