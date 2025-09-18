@@ -7,8 +7,4 @@ COPY ./modules /nakama/data/modules
 # COPY ./local.yml /nakama/data/
 
 # entrypoint chạy nakama
-CMD ["/nakama/nakama", 
-"--name=nakama1", 
-"--logger.level=DEBUG", 
-"--database.address=postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable", 
-"--runtime.path=/nakama/data/modules"]
+CMD ["/nakama/nakama", "--name=nakama1", "--logger.level=DEBUG", "--database.address=postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable", "--runtime.path=/nakama/data/modules"]
