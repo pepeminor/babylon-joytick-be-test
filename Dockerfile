@@ -1,9 +1,13 @@
+# Sử dụng image chính thức của Nakama
 FROM heroiclabs/nakama:3.22.0
 
-# copy module JS
+# Copy JS modules (game logic)
 COPY ./modules /nakama/data/modules
 
-# để default entrypoint của nakama, chỉ override CMD
+# Nếu có file config riêng thì copy vào (tùy chọn)
+# COPY ./local.yml /nakama/data/
+
+# Entrypoint chạy Nakama
 ENTRYPOINT ["/nakama/nakama"]
 
-CMD ["--name=nakama1", "--logger.level=DEBUG", "--database.address=postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable", "--runtime.path=/nakama/data/modules"]
+CMD ["--name=nakama1", "--logger.level=DEBUG", "--database.address=postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:5432/${PGDATABASE}?sslmode=disable", "--runtime.path=/nakama/data/modules"]
