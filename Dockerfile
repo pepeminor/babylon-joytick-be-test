@@ -1,16 +1,14 @@
 FROM heroiclabs/nakama:3.22.0
 
-# Copy JS modules
+# copy module JS (game logic)
 COPY ./modules /nakama/data/modules
 
-# Nếu có config riêng
+# copy config nếu có
 # COPY ./local.yml /nakama/data/
 
-# Entrypoint Nakama
-ENTRYPOINT ["/nakama/nakama"]
-
-# Dùng shell form để env expand
-CMD --name nakama1 \
+# dùng shell form để env expand
+CMD /nakama/nakama \
+    --name nakama1 \
     --logger.level DEBUG \
-    --database.address "postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:5432/${PGDATABASE}?sslmode=disable" \
+    --database.address "postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable" \
     --runtime.path "/nakama/data/modules"
