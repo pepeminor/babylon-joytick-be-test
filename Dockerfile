@@ -7,8 +7,8 @@ COPY ./modules /nakama/data/modules
 # COPY ./local.yml /nakama/data/
 
 # dùng shell form để env expand
-CMD /nakama/nakama \
+CMD ["/bin/sh", "-c", "/nakama/nakama \
     --name nakama1 \
     --logger.level DEBUG \
-    --database.address "postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable" \
-    --runtime.path "/nakama/data/modules"
+    --database.address postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable \
+    --runtime.path /nakama/data/modules"]
