@@ -1,43 +1,7 @@
-version: "3.9"
-
 services:
-  postgres:
-    image: postgres:15
-    container_name: postgres
+  pepe-ws-server:
+    build: .
+    container_name: pepe-ws-container
     restart: unless-stopped
-    env_file: .env
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-
-  nakama:
-    image: heroiclabs/nakama:3.22.0
-    container_name: nakama
-    depends_on:
-      postgres:
-        condition: service_healthy
-    env_file: .env
-    command:
-      - "--name"
-      - "nakama1"
-      - "--logger.level"
-      - "DEBUG"
-      - "--runtime.path"
-      - "/nakama/data/modules"
-      - "--runtime.js_entrypoint"
-      - "init.js"
-    volumes:
-      - ./dist:/nakama/data/modules
-    ports:
-      - "7350:7350" # gRPC
-      - "7351:7351" # HTTP
-
-volumes:
-  postgres_data:
+      - "7350:7350"

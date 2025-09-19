@@ -22,14 +22,14 @@ server.on("connection", (ws) => {
 
     console.log(`✅ Player connected: ${ws.id}`);
 
-    // Gửi snapshot toàn bộ cho thằng mới
+    // Send welcome message with current players
     ws.send(JSON.stringify({
         op: OPCODES.WELCOME,
         id: ws.id,
         snapshot: state.players
     }));
 
-    // Gửi JOIN cho tất cả thằng khác (để spawn thằng mới)
+    // Send new join to all other players
     const joinMsg = JSON.stringify({
         op: OPCODES.JOIN,
         id: ws.id,
@@ -70,4 +70,4 @@ server.on("connection", (ws) => {
 });
 
 
-console.log(`🚀 Pepe WS Server running on ws://localhost:7350`);
+console.log(`🚀 Pepe WS Server is running...`);

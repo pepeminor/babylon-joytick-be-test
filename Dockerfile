@@ -1,24 +1,7 @@
-# Stage 1: build JS modules
-FROM node:20 AS builder
-
-WORKDIR /app
-
-# Copy package.json + package-lock.json (nếu có)
+FROM node:20-alpine
+WORKDIR /usr/src/app
 COPY package*.json ./
-
-# Cài dependencies
-RUN npm install
-
-# Copy source code
+RUN npm install --production
 COPY . .
-
-# Build dist/init.js
-RUN npm run build
-
-# Stage 2: chạy Nakama
-FROM heroiclabs/nakama:3.22.0
-
-# Copy dist vào Nakama modules
-COPY --from=builder /app/dist /nakama/data/modules
-
-# Entrypoint Nakama giữ nguyên, config qua docker-compose
+EXPOSE 7350
+CMD ["npm", "start"]
