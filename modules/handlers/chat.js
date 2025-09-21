@@ -1,4 +1,4 @@
-const OPCODES = require("../opcodes");
+const { OPCODES } = require("../opcodes");
 
 function handleChat(state, ws, msg) {
     const chatMsg = JSON.stringify({

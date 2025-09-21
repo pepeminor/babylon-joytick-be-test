@@ -1,7 +1,7 @@
 services:
   pepe-ws-server:
     build: .
-    container_name: pepe-ws-container
+    container_name: pepe-ws-server
     restart: unless-stopped
     ports:
       - "7350:7350"

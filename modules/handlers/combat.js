@@ -1,4 +1,4 @@
-const OPCODES = require("../opcodes");
+const { OPCODES } = require("../opcodes");
 
 function handleAttack(state, ws, msg) {
     const attacker = state.players[ws.id];

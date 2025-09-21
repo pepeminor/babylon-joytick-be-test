@@ -1,5 +1,7 @@
-module.exports = {
-    TICK_RATE: 10,
-    AOI_RADIUS: 150,
-    MAX_NEARBY: 50,
+const CONFIG = {
+  TICK_RATE: 10,
+  AOI_DISTANCE: 148, // meters
+  AOI_MAX_PLAYER_NEARBY: 48,
 };
+
+module.exports = { CONFIG };
